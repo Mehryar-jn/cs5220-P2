@@ -114,10 +114,12 @@ void compute_density(sim_state_t* s, sim_param_t* params, double* dt_compute, do
                     if (z > 0) 
                     {
                         float rho_ij = C*z*z*z;
-                        #pragma omp critical
+                        //#pragma omp critical
                         {
-                            pi->rho += rho_ij;
-                            pj->rho += rho_ij;
+			            #pragma omp atomic
+                        pi->rho += rho_ij;
+                        #pragma omp atomic
+			            pj->rho += rho_ij;
                         }
                     }
                 }
